@@ -16,7 +16,7 @@ payload = {
 	'binds[:title]': '',
 	'binds[:instr_name_op]': '=',
 	'binds[:instructor]': '',
-	'binds[:ge]': '',
+	'binds[:ge]': 'AnyGE',
 	'binds[:crse_units_op]': '=',
 	'binds[:crse_units_from]': '',
 	'binds[:crse_units_to]': '',
@@ -24,7 +24,7 @@ payload = {
 	'binds[:days]': '',
 	'binds[:times]': '',
 	'binds[:acad_career]': '',
-	'rec_dur': 5
+	'rec_dur': 346
 }
 
 def main():
@@ -41,67 +41,57 @@ def scrape(term):
 	class_list = BeautifulSoup(request.text, 'html.parser')
 	classes = class_list.find_all(id=re.compile('class_nbr'))
 
-	class_info_list = {
-		'classes': {}
-	}
+	class_info_list = {}
 
 	for class_element in classes:
 
 		class_info = {
-			'details': {},
-			'meeting_info': {}
+			'title': None,
+			'ge': None,
+			'description': None,
+			'instructors': None,
+			'link': None
 		}
 
 		request2 = requests.get(class_element['href'])
 		class_page = BeautifulSoup(request2.text, 'html.parser')
 
-		class_title = class_page.find('h2')
-		if class_title:
-			print('\n*****', class_title.get_text().strip(), '*****\n')
+		class_info['link'] = class_element['href']
 
-		# Class details
-		details_categories = ['career', 'grading', 'class_number', 'type', 'credits', 'general_education', 'status', 'available_seats', 'enrollment_capacity', 'enrolled', 'waitlist_capacity', 'waitlist_total']
+		# Class title
+		class_title = class_page.find('h2')
+
+		if class_title:
+
+			print('*****', class_title.get_text().strip(), '*****')
+			class_info['title'] = class_title.get_text().strip().replace('\u00a0\u00a0', '')
+
+		# GE
 		details = class_page.find_all('dd')
-		detail_list = []
+
 		if details:
-			for detail in details:
-				detail_list.append(detail.get_text().strip())
-			for i in range(len(details_categories)):
-				class_info['details'][details_categories[i]] = detail_list[i]
+
+			class_info['ge'] = details[5].get_text().strip()
 
 		# Description
 		description = parse_panel(class_page, 'Description')
+
 		if description:
+
 			class_info['description'] = description.get_text().strip()
 
-		# Meeting information
+		# Instructor
 		meeting_info = parse_list(class_page, 'Meeting Information', 'td')
+		
 		if meeting_info:
-			meeting_info_categories = ['days_times', 'room', 'instructor', 'meeting_dates']
-			for i in range(len(meeting_info)):
-				class_info['meeting_info'][meeting_info_categories[i]] = meeting_info[i]
 
-		# Class notes
-		class_notes = parse_panel(class_page, 'Class Notes')
-		if class_notes:
-			class_info['class_notes'] = class_notes.get_text().strip()
+			class_info['instructors'] = meeting_info[2]
 
-		# Associated discussion sections or labs
-		discussions = parse_list(class_page, 'Associated Discussion Sections or Labs', 'div', class_='col-xs-6 col-sm-3')
-		if discussions:
-			discussions_list = [discussions[i:i+7] for i in range(0, len(discussions), 7)]
-			class_info['sections_labs'] = discussions_list
+		class_info_list[class_info['title']] = class_info
 
-		# Enrollment requirements
-		requirements = parse_panel(class_page, 'Enrollment Requirements')
-		if requirements:
-			class_info['enrollment_requirements'] = requirements.get_text().strip()
-
-		class_info_list['classes'][class_info['details']['class_number']] = class_info
-
-	pp.pprint(class_info_list)
-	with open('result.json', 'w') as fp:
-		json.dump(class_info_list, fp, sort_keys=True, indent=4, separators=(',', ': '))
+	#pp.pprint(class_info_list)
+	with open('classes.json', 'w') as fp:
+		json.dump(class_info_list, fp, sort_keys=True)
 
 # Returns list with information in order found
 def parse_list(page, heading, tag, **kargs):

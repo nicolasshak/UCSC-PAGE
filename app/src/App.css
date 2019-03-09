@@ -1,0 +1,134 @@
+@font-face {
+  font-family: SpaceMono;
+  src: url(./SpaceMono-Regular.ttf);
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: SpaceMono;
+  src: url(./SpaceMono-Bold.ttf);
+  font-weight: bold;
+}
+
+body {
+  font-family: SpaceMono;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+.table {
+  width: 86%;
+  margin: auto;
+}
+
+td, th {
+  text-align: left;
+  vertical-align: top;
+  height: auto;
+}
+
+tr {
+  margin: 25px 0px 25px 0px;
+}
+
+.root {}
+
+.header-wrapper {
+  background-color: #285991;
+  width: 100%;
+}
+
+.header {
+  width: 86%;
+  margin: auto;
+  color: #FFFFFF;
+
+  font-weight: bold;
+}
+
+.logo {
+  font-size: 26px;
+  padding: 12px 0px 12px 0px;
+  text-decoration: underline;
+}
+
+#filters {
+  font-size: 20px;
+  padding-bottom: 17px;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.highlighted {
+  color: #FFDF82;
+}
+
+.tag-list {
+  display: flex;
+}
+
+.tag {
+  background-color: #FFFFFF;
+  color: #285991;
+
+  padding: 0px 10px 0px 10px;
+  margin: 0px 10px 0px 0px;
+
+  height: auto;
+  width: auto;
+}
+
+.table-wrapper {
+  margin-top: 50px;
+}
+
+.row {
+  border-bottom: 1px solid #CCCCCC;
+  padding: 25px 0px 25px 0px;
+  display: flex;
+}
+
+.headers {
+  font-weight: bold;
+  font-size: 9px;
+  border-bottom: none;
+  text-decoration: underline;
+}
+
+.col {
+  margin-right: 2%;
+}
+
+.col1 {
+  width: 21%;
+  font-weight: bold;
+}
+
+.col2 {
+  width: 36%;
+}
+
+.col3 {
+  width: 16%;
+}
+
+.col4 {
+  width: 10%;
+}
+
+.col5 {
+  width: 10%;
+}
+
+.table-wrapper {
+  display: flex;
+}
+
+.course-title {
+  font-weight: bold;
+}
