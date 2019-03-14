@@ -1,0 +1,72 @@
+import json
+from pprint import pprint
+
+data = {
+    'AMS': 'Math',
+    'ANTH': 'Anthropology',
+    'APLX': 'Linguistics',
+    'ART': 'Art',
+    'ARTG': 'Games and Playable Media',
+    'ASTR': 'Astronomy',
+    'BIOE': 'Biology',
+    'BIOL': 'Biology',
+    'BME': 'Business',
+    'CHEM': 'Chemistry',
+    'CHIN': 'Language',
+    'CLNI': 'College Affiliated',
+    'CLTE': 'College Affiliated',
+    'CMMU': 'Community Studies',
+    'CMPE': 'Technology',
+    'CMPM': 'Technology',
+    'CMPS': 'Technology',
+    'COWL': 'College Affiliated',
+    'CRES': 'Critical Race and Ethnic Studies',
+    'CRSN': 'College Affiliated',
+    'CRWN': 'College Affiliated',
+    'EART': 'Earth and Planetary Sciences',
+    'ECON': 'Economics',
+    'EDUC': 'Education',
+    'EE': 'Electrical Engineering',
+    'ENVS': 'Environmental Studies',
+    'ESCI': 'Environmental Science',
+    'FILM': 'Film and Digital Media',
+    'FMST': 'Feminist Studies',
+    'FREN': 'Language',
+    'GERM': 'Language',
+    'HAVC': 'History of Art and Visual Culture',
+    'HEBR': 'Language',
+    'HIS': 'History',
+    'HISC': 'History of Consciousness',
+    'ITAL': 'Language',
+    'JAPN': 'Language',
+    'KRSG': 'College Affiliated',
+    'LALS': 'Latin American and Latino Studies',
+    'LGST': 'Legal Studies',
+    'LING': 'Linguistics',
+    'LIT': 'Literature',
+    'MATH': 'Math',
+    'MERR': 'College Affiliated',
+    'METX': 'Microbiology and Environmental Toxicology',
+    'MUSC': 'Music',
+    'OAKS': 'College Affiliated',
+    'OCEA': 'Ocean Sciences',
+    'PHIL': 'Philosophy',
+    'PHYS': 'Physics',
+    'POLI': 'Politics',
+    'PORT': 'College Affiliated',
+    'PRTR': 'College Affiliated',
+    'PSYC': 'Psychology',
+    'SOCY': 'Sociology',
+    'SPAN': 'Language',
+    'SPHS': 'Language',
+    'STEV': 'College Affiliated',
+    'THEA': 'Theater Arts',
+    'WRIT': 'Writing'
+}
+
+depts = []
+for item in data:
+	if data[item] not in depts:
+		depts.append(data[item])
+
+print(depts)

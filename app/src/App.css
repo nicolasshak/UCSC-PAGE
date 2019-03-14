@@ -34,6 +34,8 @@ tr {
 .root {}
 
 .header-wrapper {
+  top: 0;
+  position: fixed;
   background-color: #285991;
   width: 100%;
 }
@@ -50,41 +52,48 @@ tr {
   font-size: 26px;
   padding: 12px 0px 12px 0px;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 #filters {
+  max-height: 100vh;
   font-size: 20px;
   padding-bottom: 17px;
-  overflow: hidden;
+  overflow: auto;
   transition: max-height 0.2s ease-out;
 }
 
 .filter {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
 }
 
 .highlighted {
+  cursor: pointer;
   color: #FFDF82;
 }
 
 .tag-list {
   display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .tag {
+  cursor: pointer;
   background-color: #FFFFFF;
   color: #285991;
 
-  padding: 0px 10px 0px 10px;
-  margin: 0px 10px 0px 0px;
+  display: flex;
+  align-items: center;
 
-  height: auto;
-  width: auto;
+  padding: 0px 10px 0px 10px;
+  margin: 0px 10px 10px 0px;
 }
 
 .table-wrapper {
-  margin-top: 50px;
+  margin-top: 400px;
 }
 
 .row {
@@ -105,8 +114,9 @@ tr {
 }
 
 .col1 {
-  width: 21%;
+  cursor: pointer;
   font-weight: bold;
+  width: 21%;
 }
 
 .col2 {
@@ -114,10 +124,12 @@ tr {
 }
 
 .col3 {
+  cursor: pointer;
   width: 16%;
 }
 
 .col4 {
+  cursor: pointer;
   width: 10%;
 }
 
@@ -131,4 +143,33 @@ tr {
 
 .course-title {
   font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .headers {
+    display: none;
+  }
+
+  .col {
+    margin-right: 0;
+    padding-right: 2%;
+  }
+
+  .col1 {
+    width: 32%;
+  }
+
+  .col2 {
+    width: 64%;
+  }
+
+  .col3, .col4, .col5 {
+    margin-top: 20px;
+    width: 31%;
+  }
 }

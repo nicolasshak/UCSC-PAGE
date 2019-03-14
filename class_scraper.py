@@ -27,6 +27,69 @@ payload = {
 	'rec_dur': 346
 }
 
+aliases = {
+    'AMS': 'Math',
+    'ANTH': 'Anthropology',
+    'APLX': 'Linguistics',
+    'ART': 'Art',
+    'ARTG': 'Games and Playable Media',
+    'ASTR': 'Astronomy',
+    'BIOE': 'Biology',
+    'BIOL': 'Biology',
+    'BME': 'Business',
+    'CHEM': 'Chemistry',
+    'CHIN': 'Language',
+    'CLNI': 'College Affiliated',
+    'CLTE': 'College Affiliated',
+    'CMMU': 'Community Studies',
+    'CMPE': 'Technology',
+    'CMPM': 'Technology',
+    'CMPS': 'Technology',
+    'COWL': 'College Affiliated',
+    'CRES': 'Critical Race and Ethnic Studies',
+    'CRSN': 'College Affiliated',
+    'CRWN': 'College Affiliated',
+    'EART': 'Earth and Planetary Sciences',
+    'ECON': 'Economics',
+    'EDUC': 'Education',
+    'EE': 'Electrical Engineering',
+    'ENVS': 'Environmental Studies',
+    'ESCI': 'Environmental Science',
+    'FILM': 'Film and Digital Media',
+    'FMST': 'Feminist Studies',
+    'FREN': 'Language',
+    'GERM': 'Language',
+    'HAVC': 'History of Art and Visual Culture',
+    'HEBR': 'Language',
+    'HIS': 'History',
+    'HISC': 'History of Consciousness',
+    'ITAL': 'Language',
+    'JAPN': 'Language',
+    'KRSG': 'College Affiliated',
+    'LALS': 'Latin American and Latino Studies',
+    'LGST': 'Legal Studies',
+    'LING': 'Linguistics',
+    'LIT': 'Literature',
+    'MATH': 'Math',
+    'MERR': 'College Affiliated',
+    'METX': 'Microbiology and Environmental Toxicology',
+    'MUSC': 'Music',
+    'OAKS': 'College Affiliated',
+    'OCEA': 'Ocean Sciences',
+    'PHIL': 'Philosophy',
+    'PHYS': 'Physics',
+    'POLI': 'Politics',
+    'PORT': 'College Affiliated',
+    'PRTR': 'College Affiliated',
+    'PSYC': 'Psychology',
+    'SOCY': 'Sociology',
+    'SPAN': 'Language',
+    'SPHS': 'Language',
+    'STEV': 'College Affiliated',
+    'THEA': 'Theater Arts',
+    'WRIT': 'Writing'
+}
+
 def main():
 
 	class_list = scrape(2192)
@@ -47,6 +110,7 @@ def scrape(term):
 
 		class_info = {
 			'title': None,
+			'department': None,
 			'ge': None,
 			'description': None,
 			'instructors': None,
@@ -58,13 +122,15 @@ def scrape(term):
 
 		class_info['link'] = class_element['href']
 
-		# Class title
+		# Class title / department
 		class_title = class_page.find('h2')
 
 		if class_title:
 
 			print('*****', class_title.get_text().strip(), '*****')
 			class_info['title'] = class_title.get_text().strip().replace('\u00a0\u00a0', '')
+
+			class_info['department'] = aliases[class_info['title'].split(' ', 1)[0]]
 
 		# GE
 		details = class_page.find_all('dd')
