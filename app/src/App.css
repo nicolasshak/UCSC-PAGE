@@ -113,8 +113,11 @@ tr {
   margin-right: 2%;
 }
 
-.col1 {
+.headers > .col1, .headers > .col3, .headers > .col4 {
   cursor: pointer;
+}
+
+.col1 {
   font-weight: bold;
   width: 21%;
 }
@@ -124,12 +127,10 @@ tr {
 }
 
 .col3 {
-  cursor: pointer;
   width: 16%;
 }
 
 .col4 {
-  cursor: pointer;
   width: 10%;
 }
 

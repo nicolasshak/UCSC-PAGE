@@ -142,6 +142,11 @@ def scrape(term):
 		# Description
 		description = parse_panel(class_page, 'Description')
 
+		# Enrollment requirements
+		requirements = parse_panel(class_page, 'Enrollment Requirements')
+		if requirements:
+			class_info['enrollment_requirements'] = requirements.get_text().strip()
+
 		if description:
 
 			class_info['description'] = description.get_text().strip()

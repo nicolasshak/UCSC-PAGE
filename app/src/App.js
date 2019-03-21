@@ -4,7 +4,7 @@ import './App.css';
 import Classes from './classes.json';
 import SmoothCollapse from 'react-smooth-collapse';
 
-const GES = ['CC', 'ER', 'MF', 'SI', 'SR', 'TA', 'PE-E', 'PE-H', 'PE-T', 'PR-E', 'PR-C', 'PR-S', 'C1', 'C2', 'C'];
+const GES = ['CC', 'IM' , 'ER', 'MF', 'SI', 'SR', 'TA', 'PE-E', 'PE-H', 'PE-T', 'PR-E', 'PR-C', 'PR-S', 'C1', 'C2', 'C'];
 const TAGS = ['Math', 'Anthropology', 'Linguistics', 'Art', 'Games and Playable Media', 'Astronomy', 'Biology', 'Business', 'Chemistry', 'Language', 'College Affiliated', 'Community Studies', 'Technology', 'Critical Race and Ethnic Studies', 'Earth and Planetary Sciences', 'Economics', 'Education', 'Electrical Engineering', 'Environmental Studies', 'Environmental Science', 'Film and Digital Media', 'Feminist Studies', 'History of Art and Visual Culture', 'History', 'History of Consciousness', 'Latin American and Latino Studies', 'Legal Studies', 'Literature', 'Microbiology and Environmental Toxicology', 'Music', 'Ocean Sciences', 'Philosophy', 'Physics', 'Politics', 'Psychology', 'Sociology', 'Theater Arts', 'Writing']
 
 class App extends Component {
@@ -39,7 +39,7 @@ class App extends Component {
 	}
 
 	collapse() {
-		if(window.scrollY === 0) {
+		if(window.scrollY <= 0) {
 			this.setState((state, props) => ({collapsed: true}));
 		}
 		else {
@@ -287,7 +287,12 @@ class ClassElement extends Component {
 		return(
 			<div class="row">
 				<div class="col col1">{this.props.class.title}</div>
-				<div class="col col2">{this.props.class.description}</div>
+				<div class="col col2">
+					<div>
+						{this.props.class.description}
+					</div>
+					{this.props.class.enrollment_requirements && <div><br></br>{this.props.class.enrollment_requirements}</div>}
+				</div>
 				<div class="col col3">{this.props.class.instructors}</div>
 				<div class="col col4">{this.props.class.ge}</div>
 				<div class="col col5"><a href={this.props.class.link}>Link</a></div>
