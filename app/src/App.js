@@ -159,24 +159,20 @@ class Filter extends Component {
 	}
 }
 
-class Tag extends Component {
+const Tag = (props) => {
 
-	render() {
-		return(
-			<div class="tag" onClick={() => this.props.method(this.props.tag, this.props.type)}>
-				<div>{this.props.tag}</div><div> +</div>
-			</div>
-		);
-	}
+	return(
+		<div class="tag" onClick={() => props.method(props.tag, props.type)}>
+			<div>{props.tag}</div><div> +</div>
+		</div>
+	);
 }
 
-class ActiveTag extends Component {
+const ActiveTag = (props) => {
 
-	render() {
-		return(
-			<div><span class="highlighted" onClick={() => this.props.method(this.props.tag, this.props.type)}>{this.props.tag}</span></div>
-		);
-	}
+	return(
+		<div><span class="highlighted" onClick={() => props.method(props.tag, props.type)}>{props.tag}</span></div>
+	);
 }
 
 class ClassTable extends Component {
@@ -282,25 +278,22 @@ class ClassTable extends Component {
 	}
 }
 
-class ClassElement extends Component {
+const ClassElement = (props) => {
 
-	render() {
-		console.log(this.props.class);
-		return(
-			<div class="row">
-				<div class="col col1">{this.props.class.gsx$coursetitle.$t}</div>
-				<div class="col col2">
-					<div>
-						{this.props.class.gsx$description.$t}
-					</div>
-					{this.props.class.gsx$prerequisites.$t && <div><br></br>{this.props.class.gsx$prerequisites.$t}</div>}
+	return(
+		<div class="row">
+			<div class="col col1">{props.class.gsx$coursetitle.$t}</div>
+			<div class="col col2">
+				<div>
+					{props.class.gsx$description.$t}
 				</div>
-				<div class="col col3">{this.props.class.gsx$instructor.$t}</div>
-				<div class="col col4">{this.props.class.gsx$ge.$t}</div>
-				<div class="col col5"><a href={this.props.class.gsx$link.$t}>Link</a></div>
+				{props.class.gsx$prerequisites.$t && <div><br></br>{props.class.gsx$prerequisites.$t}</div>}
 			</div>
-		);
-	}
+			<div class="col col3">{props.class.gsx$instructor.$t}</div>
+			<div class="col col4">{props.class.gsx$ge.$t}</div>
+			<div class="col col5"><a href={props.class.gsx$link.$t}>Link</a></div>
+		</div>
+	);
 }
 
 export default App;
