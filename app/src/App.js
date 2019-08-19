@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Classes from './classes.json';
 import SmoothCollapse from 'react-smooth-collapse';
 
 const GES = ['CC', 'IM' , 'ER', 'MF', 'SI', 'SR', 'TA', 'PE-E', 'PE-H', 'PE-T', 'PR-E', 'PR-C', 'PR-S', 'C1', 'C2', 'C'];
 const TAGS = ['Math', 'Anthropology', 'Linguistics', 'Art', 'Games and Playable Media', 'Astronomy', 'Biology', 'Business', 'Chemistry', 'Language', 'College Affiliated', 'Community Studies', 'Technology', 'Critical Race and Ethnic Studies', 'Earth and Planetary Sciences', 'Economics', 'Education', 'Electrical Engineering', 'Environmental Studies', 'Environmental Science', 'Film and Digital Media', 'Feminist Studies', 'History of Art and Visual Culture', 'History', 'History of Consciousness', 'Latin American and Latino Studies', 'Legal Studies', 'Literature', 'Microbiology and Environmental Toxicology', 'Music', 'Ocean Sciences', 'Philosophy', 'Physics', 'Politics', 'Psychology', 'Sociology', 'Theater Arts', 'Writing']
 
+function getSheet(id, callback) {
+
+	let url = `https://spreadsheets.google.com/feeds/list/1cF9wFa9xuMATQUPUqKrkoUDTywZXqhijWaEuHywIu0w/${id}/public/values?alt=json`;
+    fetch(url).then((res) => {
+    	return res.json() 
+    }).then((json) => {
+    	callback(json);
+    });
+}
+
 class App extends Component {
 
 	componentDidMount() {
-		window.onscroll = this.collapse
+		window.onscroll = this.collapse;
 	}
 
 	constructor(props) {
@@ -34,7 +43,7 @@ class App extends Component {
 		this.state = {
 			ges: ge_list,
 			tags: tag_list,
-			collapsed: true
+			collapsed: true,
 		}
 	}
 
@@ -95,13 +104,13 @@ class Filter extends Component {
 			var str = [];
 
 			for(var i in tags) {
-				if(i == tags.length - 1) {
+				if(i === tags.length - 1) {
 					str.push(<div>and </div>);
 				}
 
 				str.push(tags[i]);
 
-				if(i != tags.length - 1) {
+				if(i !== tags.length - 1) {
 					str.push(<div>, </div>);
 				}
 			}
@@ -172,47 +181,33 @@ class ActiveTag extends Component {
 
 class ClassTable extends Component {
 
+	componentDidMount() {
+		this.getCourses('Fall 2019');
+	}
+
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			sortCol: 'title',
 			sortOrder: true, // true => ascending
+			courses: {}
 		}
 	}
 
-	// Unoptimized
-	getClasses(sortCol, sortOrder) {
+	getCourses(term) {
 
-		var class_list = [];
-
-		for(var i in Classes) {
-			if(this.filter(Classes[i])) {
-				class_list.push(<ClassElement class={Classes[i]}/>);
-			}
-		}
-
-		class_list.sort( function(a, b) {
-
-			var c = Classes[a.props.class.title][sortCol];
-			var d = Classes[b.props.class.title][sortCol];
-
-			if(c > d) {
-				return 1;
-			}
-			else if(c < d) {
-				return -1;
-			}
-			else {
-				return 0;
+		getSheet(1, (res) => {
+			let entries = res.feed.entry;
+			for (let i = 0; i < entries.length; i++) {
+				if (entries[i].gsx$term.$t === term) {
+					getSheet(entries[i].gsx$sheetid.$t, res => {
+						this.setState((state, props) => ({courses: res.feed.entry}));
+					});
+					return;
+				}
 			}
 		});
-		
-		if(this.state.sortOrder === false) {
-			class_list.reverse();
-		}
-		
-		return class_list;
 	}
 
 	filter(classInfo) {
@@ -266,6 +261,12 @@ class ClassTable extends Component {
 	}
 
 	render() {
+
+		let courses = [];
+		for (let i = 0; i < this.state.courses.length; i++) {
+			courses.push(<ClassElement class={this.state.courses[i]}/>);
+		}
+
 		return(
 			<div class="table">
 				<div class="row headers">
@@ -275,7 +276,7 @@ class ClassTable extends Component {
 					<div class="col col4" onClick={() => this.sortBy('ge')}>GE</div>
 					<div class="col col5">Class Page</div>
 				</div>
-				{this.getClasses(this.state.sortCol, this.state.sortOrder)}
+				{courses}
 			</div>
 		);
 	}
@@ -284,18 +285,19 @@ class ClassTable extends Component {
 class ClassElement extends Component {
 
 	render() {
+		console.log(this.props.class);
 		return(
 			<div class="row">
-				<div class="col col1">{this.props.class.title}</div>
+				<div class="col col1">{this.props.class.gsx$coursetitle.$t}</div>
 				<div class="col col2">
 					<div>
-						{this.props.class.description}
+						{this.props.class.gsx$description.$t}
 					</div>
-					{this.props.class.enrollment_requirements && <div><br></br>{this.props.class.enrollment_requirements}</div>}
+					{this.props.class.gsx$prerequisites.$t && <div><br></br>{this.props.class.gsx$prerequisites.$t}</div>}
 				</div>
-				<div class="col col3">{this.props.class.instructors}</div>
-				<div class="col col4">{this.props.class.ge}</div>
-				<div class="col col5"><a href={this.props.class.link}>Link</a></div>
+				<div class="col col3">{this.props.class.gsx$instructor.$t}</div>
+				<div class="col col4">{this.props.class.gsx$ge.$t}</div>
+				<div class="col col5"><a href={this.props.class.gsx$link.$t}>Link</a></div>
 			</div>
 		);
 	}
